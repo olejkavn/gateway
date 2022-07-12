@@ -2,14 +2,13 @@ package com.example.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-//import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
-//import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-//@EnableDiscoveryClient
+@EnableDiscoveryClient
 public class GatewayApplication {
 
 	public static void main(String[] args) {
@@ -23,6 +22,9 @@ public class GatewayApplication {
 						.uri("http://httpbin.org"))
 				.route("host_route", r -> r.host("*.myhost.org")
 						.uri("http://httpbin.org"))
+				.route("eureka_route", r -> r.path("/eureka")
+						.filters(f -> f.rewritePath("/eureka", "/"))
+						.uri("http://eureka:8080"))
 				.route("rewrite_route", r -> r.host("*.rewrite.org")
 						.filters(f -> f.rewritePath("/foo/(?<segment>.*)", "/${segment}"))
 						.uri("http://httpbin.org"))
