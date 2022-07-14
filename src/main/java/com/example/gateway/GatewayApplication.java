@@ -20,14 +20,17 @@ public class GatewayApplication {
 		return builder.routes()
 				.route("path_route", r -> r.path("/get")
 						.uri("http://httpbin.org"))
-				.route("host_route", r -> r.host("*.myhost.org")
-						.uri("http://httpbin.org"))
-				.route("eureka_route", r -> r.path("/eureka")
-						.filters(f -> f.rewritePath("/eureka", "/"))
+				.route("eureka_route", r -> r.path("/dashboard")
+						.filters(f -> f.rewritePath("/dashboard", "/"))
 						.uri("http://eureka:8080"))
-				.route("rewrite_route", r -> r.host("*.rewrite.org")
-						.filters(f -> f.rewritePath("/foo/(?<segment>.*)", "/${segment}"))
-						.uri("http://httpbin.org"))
+				.route("eureka_route_1", r -> r.path("/eureka/**")
+						.uri("http://eureka:8080"))
+				.route( "level_service_route", r -> r.path("/level-service/")
+						.uri("http://level-service:8080"))
+				//test route
+				.route("config_server_roure", r -> r.path("/config-server/**")
+						.filters(f -> f.rewritePath("/config-server", "/"))
+						.uri("http://config-server:8080"))
 				.build();
 	}
 }
