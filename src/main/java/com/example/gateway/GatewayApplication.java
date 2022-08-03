@@ -15,22 +15,22 @@ public class GatewayApplication {
 		SpringApplication.run(GatewayApplication.class, args);
 	}
 
-	@Bean
-	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
-		return builder.routes()
-				.route("path_route", r -> r.path("/get")
-						.uri("http://httpbin.org"))
-				.route("eureka_route", r -> r.path("/dashboard")
-						.filters(f -> f.rewritePath("/dashboard", "/"))
-						.uri("http://eureka:8080"))
-				.route("eureka_route_1", r -> r.path("/eureka/**")
-						.uri("http://eureka:8080"))
-				.route( "level_service_route", r -> r.path("/level-service/")
-						.uri("http://level-service:8080"))
-				//test route
-				.route("config_server_roure", r -> r.path("/config-server/**")
-						.filters(f -> f.rewritePath("/config-server", "/"))
-						.uri("http://config-server:8080"))
-				.build();
-	}
+//	@Bean
+//	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
+//		return builder.routes()
+//				.route("path_route", r -> r.path("/get")
+//						.uri("http://httpbin.org"))
+//				.route("eureka_route", r -> r.path("/dashboard")
+//						.filters(f -> f.rewritePath("/dashboard", "/"))
+//						.uri("http://eureka:8080"))
+//				.route("eureka_route_1", r -> r.path("/eureka/**")
+//						.uri("http://eureka:8080"))
+//				.route( "level_service_route", r -> r.path("/level-service/")
+//						.uri("http://level-service:8080"))
+//				//test route
+//				.route("config_server_roure", r -> r.path("/config-server/**")
+//						.filters(f -> f.rewritePath("/config-server", "/"))
+//						.uri("http://config-server:8080"))
+//				.build();
+//	}
 }

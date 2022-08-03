@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: gateway
+  cloud:
+    discovery:
+      enabled: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+          predicates:
+            - name: Path
+              args:
+                pattern: "'/'+serviceId+'/**'"
+          filters:
+            - name: RewritePath
+              args:
+                regexp: "'/' + serviceId + '/?(?<remaining>.*)'"
+                replacement: "'/${remaining}'"
+      routes:
+        - id: eureka_route
+          uri: http://eureka:8080
+          predicates:
+            - name: Path
+              args:
+                pattern: "/dashboard"
+          filters:
+            - name: RewritePath
+              args:
+                regexp: "/dashboard"
+                replacement: "/"
+        - id: eureka_resources_route
+          uri: http://eureka:8080/eureka
+          predicates:
+            - name: Path
+              args:
+                pattern: "/eureka/**"
+server:
+  port: 8080
+management:
+  server:
+    port: 8081
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: "/"
+
+eureka:
+  client:
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: "http://eureka:8080/eureka/"
