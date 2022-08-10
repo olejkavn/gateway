@@ -26,7 +26,7 @@ spec:
         app: gateway
     spec:
       containers:
-        - image: registry.digitalocean.com/pet-project/gateway:latest
+        - image: otymkovskyi/gateway:latest
           imagePullPolicy: Always
           name: gateway
           resources: {}
